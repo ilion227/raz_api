@@ -20,7 +20,7 @@ router.route('/')
     //GET all blobs
     .get(function(req, res, next) {
         //retrieve all blobs from Monogo
-        mongoose.model('Event').find({}, function (err, events) {
+        mongoose.model('Event').find({}).sort('-updated_at').exec(function (err, events) {
               if (err) {
                   return console.error(err);
               } else {
@@ -31,20 +31,20 @@ router.route('/')
     //POST a new blob
     .post(function(req, res) {
         // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
-        if (req.body.name == null || req.body.description == null){
+        if (req.body.title == null || req.body.description == null){
           console.log("Missing attributes!");
           res.json({
             'error': 'Missing attributes'
           });
         }
         console.log(req.body);
-        var name = req.body.name;
+        var title = req.body.title;
         var description = req.body.description;
         var enabled = true;
         //call the create function for our database
         mongoose.model('Event').create(req.body, function (err, event) {
               if (err) {
-                  res.send("There was a problem adding the information to the database.");
+                  res.send(err.message);
               } else {
                   //Blob has been created
                   console.log('POST creating new event: ' + event);

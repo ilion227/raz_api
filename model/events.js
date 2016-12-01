@@ -1,22 +1,25 @@
 var mongoose = require('mongoose');
 var eventSchema = new mongoose.Schema({
-    contentCategory: String,
-    lang: String,
+    content_category: String,
     priority: Number,
     title: String,
     description: String,
-    category: String,
+    road_type: String,
     section: String,
     chainage: Number,
     lat: Number,
     lon: Number,
-    roadPriority: Number,
-    isRoadClosed: Boolean,
-    contentName: String,
-    borderCrossing: Boolean,
+    road_priority: Number,
+    is_road_closed: Boolean,
+    content_name: String,
+    border_crossing: Boolean,
     road: String,
-    eventValidFrom: String,
-    eventValidUntil: String,
-    updated_at: String
+    updated_at: String,
+    status: {
+        valid_from: String,
+        valid_until: String,
+        active: { type: Boolean, default: true }
+    },
+    event_id: { type: Number, index: { unique: true, dropDups: true }}
 });
 mongoose.model('Event', eventSchema);
