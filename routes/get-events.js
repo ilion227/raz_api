@@ -20,6 +20,7 @@ router.route('/')
           let data = JSON.parse(body);
 
           let items = data.Contents[0].Data.Items;
+          let log = "";
 
           let date = new Date();
 
@@ -56,9 +57,12 @@ router.route('/')
               mongoose.model('Event').create(event, (err, event) => {
                 if (err) {
                   console.log(err.message);
+                  log += err.message + "\n";
+                } else {
+                  counter = counter + 1;
+                  console.log("Insert sucessfull!");
+                  log += "Item " + item.Id + " sucessfully inserted with _id: " + event._id + ".\n";
                 }
-                counter = counter + 1;
-                console.log("Insert sucessfull!");
                 resolve();
               });
             });
@@ -67,7 +71,7 @@ router.route('/')
           Promise.all(promises)
           .then( () => {
             console.log("END OF PROMISES");
-            res.render('get-events', { title: 'Got ' + counter + ' events.', date: date });
+            res.render('get-events', { title: 'Added ' + counter + ' events.', date: date, output: log });
           })
           .catch(console.error);
 
