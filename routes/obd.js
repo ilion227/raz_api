@@ -17,37 +17,35 @@ router.use(methodOverride(function(req, res){
 //build the REST operations at the base for blobs
 //this will be accessible from http://127.0.0.1:3000/blobs if the default route for / is left unchanged
 router.route('/')
-    //GET all blobs
+
     .get(function(req, res, next) {
         //retrieve all blobs from Monogo
-        mongoose.model('Event').find({}).sort('-updated_at').limit(10).exec(function (err, events) {
+        mongoose.model('Obd').find({}).sort('-updated_at').limit(10).exec(function (err, obd) {
               if (err) {
                   return console.error(err);
               } else {
-                  res.json(events);
+                  res.json(obd);
               }
         });
     })
-    //POST a new blob
+    //POST new OBD data
     .post(function(req, res) {
         // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
-        if (req.body.title == null || req.body.description == null){
+        /*if (req.body.title == null || req.body.description == null){
           console.log("Missing attributes!");
           res.json({
             'error': 'Missing attributes'
           });
-        }
+        }*/
         console.log(req.body);
-        var title = req.body.title;
-        var description = req.body.description;
-        var enabled = true;
+
         //call the create function for our database
-        mongoose.model('Event').create(req.body, function (err, event) {
+        mongoose.model('Obd').create(req.body, function (err, obd) {
               if (err) {
                   res.send(err.message);
               } else {
                   //Blob has been created
-                  console.log('POST creating new event: ' + event);
+                  console.log('POST creating new obd data: ' + obd);
                   res.format({
                       //HTML response will set the location and redirect back to the home page. You could also create a 'success' page if that's your thing
                     /*html: function(){
@@ -58,7 +56,7 @@ router.route('/')
                     },*/
                     //JSON response will show the newly created blob
                     json: function(){
-                        res.json(event);
+                        res.json(obd);
                     }
                 });
               }

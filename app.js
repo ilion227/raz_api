@@ -8,10 +8,12 @@ var request = require('request');
 
 var db = require('./model/db');
 var event = require('./model/events');
+var obd = require('./model/obd');
 
 var index  = require('./routes/index');
 var users  = require('./routes/users');
 var events = require('./routes/events');
+var obd_route = require('./routes/obd');
 var get_events = require('./routes/get-events');
 
 var app = express();
@@ -32,6 +34,7 @@ app.use('/', index);
 app.use('/get-events', get_events);
 app.use('/users', users);
 app.use('/events', events);
+app.use('/obd', obd_route);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
