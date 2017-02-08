@@ -1,5 +1,9 @@
 var mongoose = require('mongoose');
 var obdSchema = new mongoose.Schema({
-    data: String
-}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
+    "date": Date,
+    "rpm": Number,
+    "speed": Number,
+    "load": Number,
+    "temp": Number
+});
 mongoose.model('Obd', obdSchema);
